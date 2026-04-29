@@ -48,8 +48,8 @@ const app = {
     setTimeout(() => {
       targetPage.style.display = 'flex';
       targetPage.classList.add('slide-in');
-      // 强制reflow触发动画
-      targetPage.offsetHeight;
+      // 强制reflow以触发CSS过渡动画（必须读取offsetHeight）
+      void targetPage.offsetHeight;
       targetPage.classList.remove('slide-in');
       targetPage.classList.add('active');
     }, 100);

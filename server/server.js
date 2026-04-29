@@ -44,6 +44,7 @@ app.use(express.static(path.join(__dirname, '..')));
 const QWEN_API_KEY = process.env.QWEN_API_KEY || '';
 const QWEN_API_URL = 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation';
 const QWEN_MODEL = process.env.QWEN_MODEL || 'qwen-turbo';
+const API_TIMEOUT_MS = parseInt(process.env.API_TIMEOUT_MS || '10000', 10); // 千问API请求超时（毫秒）
 
 // =====================================================
 // API 路由
@@ -185,8 +186,8 @@ function callQwenAPI(messages) {
       reject(new Error(`网络请求失败: ${err.message}`));
     });
 
-    // 设置超时（10秒）
-    request.setTimeout(10000, () => {
+    // 设置超时（可通过 API_TIMEOUT_MS 环境变量配置）
+    request.setTimeout(API_TIMEOUT_MS, () => {
       request.destroy();
       reject(new Error('千问API请求超时（10秒）'));
     });
