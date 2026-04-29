@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>网页相亲模拟器 💕</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 页面1：性别选择 -->
+  <div id="page-gender" class="page active">
+    <div class="gender-bg">
+      <div class="hearts-decoration">
+        <span class="heart h1">💕</span>
+        <span class="heart h2">💖</span>
+        <span class="heart h3">💗</span>
+        <span class="heart h4">❤️</span>
+        <span class="heart h5">💝</span>
+      </div>
+      <div class="gender-content">
+        <h1 class="app-title">网页相亲模拟器</h1>
+        <p class="app-subtitle">遇见心动的TA 💌</p>
+        <p class="gender-prompt">请选择你的性别</p>
+        <div class="gender-buttons">
+          <button class="gender-btn male-btn" onclick="app.selectGender('male')">
+            <span class="gender-icon">👨</span>
+            <span class="gender-label">我是男生</span>
+          </button>
+          <button class="gender-btn female-btn" onclick="app.selectGender('female')">
+            <span class="gender-icon">👩</span>
+            <span class="gender-label">我是女生</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页面2：配对卡片 -->
+  <div id="page-cards" class="page">
+    <div class="cards-header">
+      <h2 class="cards-title">为你精选 💝</h2>
+      <p class="cards-subtitle" id="cards-subtitle">发现附近的缘分</p>
+    </div>
+    <div class="cards-container">
+      <div class="card-stack" id="card-stack">
+        <!-- 卡片由JS动态生成 -->
+      </div>
+      <!-- 卡片分页指示器 -->
+      <div class="card-indicators" id="card-indicators"></div>
+    </div>
+    <div class="cards-nav">
+      <button class="nav-btn prev-btn" id="prev-btn" onclick="app.prevCard()">← 上一位</button>
+      <button class="nav-btn next-btn" id="next-btn" onclick="app.nextCard()">下一位 →</button>
+    </div>
+  </div>
+
+  <!-- 页面3：聊天对话 -->
+  <div id="page-chat" class="page">
+    <div class="chat-header">
+      <button class="back-btn" onclick="app.backToCards()">←</button>
+      <div class="chat-partner-info">
+        <span class="chat-partner-avatar" id="chat-avatar">👩</span>
+        <div class="chat-partner-details">
+          <span class="chat-partner-name" id="chat-name">对方</span>
+          <span class="chat-partner-meta" id="chat-meta">在线</span>
+        </div>
+      </div>
+      <button class="end-btn" onclick="app.endDate()">结束相亲</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <!-- 消息由JS动态生成 -->
+    </div>
+    <div class="chat-input-area">
+      <div class="typing-indicator" id="typing-indicator" style="display:none;">
+        <span id="typing-name">对方</span>正在输入<span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>
+      </div>
+      <div class="chat-input-row">
+        <textarea
+          id="chat-input"
+          class="chat-input"
+          placeholder="说点什么吧..."
+          rows="1"
+          onkeydown="app.handleInputKey(event)"
+          oninput="app.autoResizeInput(this)"
+        ></textarea>
+        <button class="send-btn" id="send-btn" onclick="app.sendMessage()">发送</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页面4：评分报告 -->
+  <div id="page-report" class="page">
+    <div class="report-container">
+      <div class="report-header">
+        <h2 class="report-title">相亲报告 📊</h2>
+        <div class="total-score-circle">
+          <span class="total-score-num" id="total-score">0</span>
+          <span class="total-score-label">总匹配度</span>
+        </div>
+      </div>
+
+      <div class="report-section">
+        <h3 class="section-title">📈 维度评分</h3>
+        <div class="score-items" id="score-items">
+          <!-- 由JS动态生成 -->
+        </div>
+      </div>
+
+      <div class="report-section">
+        <h3 class="section-title">💡 适合的TA</h3>
+        <div class="recommendations" id="recommendations">
+          <!-- 由JS动态生成 -->
+        </div>
+      </div>
+
+      <div class="report-section">
+        <h3 class="section-title">✨ 相亲总结</h3>
+        <div class="summary-box" id="summary-box">
+          <!-- 由JS动态生成 -->
+        </div>
+      </div>
+
+      <button class="restart-btn" onclick="app.restart()">💕 再来一次</button>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/character.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
