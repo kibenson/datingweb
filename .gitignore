@@ -1,0 +1,21 @@
+# 依赖目录
+node_modules/
+server/node_modules/
+
+# 环境变量（包含API密钥，不提交）
+.env
+server/.env
+*.env
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 日志
+*.log
+npm-debug.log*
