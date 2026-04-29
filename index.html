@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ff6b9d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>💘 网页相亲模拟器</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===== 页面1：性别选择 ===== -->
+  <div class="page active" id="page-gender">
+    <div class="gender-header">
+      <span class="logo">💘</span>
+      <h1>相亲模拟器</h1>
+      <p>选择你的性别，开启缘分之旅</p>
+    </div>
+    <div class="gender-options">
+      <button class="gender-btn" id="btn-male">
+        <span class="icon">👨</span>
+        <span class="label">我是男生</span>
+        <span class="sub">寻找女生配对</span>
+      </button>
+      <button class="gender-btn" id="btn-female">
+        <span class="icon">👩</span>
+        <span class="label">我是女生</span>
+        <span class="sub">寻找男生配对</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== 页面2：异性卡片浏览 ===== -->
+  <div class="page" id="page-cards">
+    <div class="page-header">
+      <button class="back-btn" onclick="showPage('gender')">‹</button>
+      <h2>💝 为你推荐</h2>
+      <span class="badge">3位嘉宾</span>
+    </div>
+
+    <div class="cards-area">
+      <div class="cards-track" id="cards-track">
+        <!-- 卡片由 JS 动态生成 -->
+      </div>
+    </div>
+
+    <div class="cards-indicators" id="cards-indicators">
+      <!-- 指示点由 JS 动态生成 -->
+    </div>
+
+    <div class="swipe-hint">
+      <span>👈</span> 左右滑动切换 <span>👉</span>
+    </div>
+  </div>
+
+  <!-- ===== 页面3：聊天界面 ===== -->
+  <div class="page" id="page-chat">
+    <div class="chat-header">
+      <button class="back-btn" onclick="showPage('cards')">‹</button>
+      <div class="chat-header-avatar" id="chat-header-avatar">😊</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name" id="chat-header-name">加载中...</div>
+        <div class="chat-header-status">
+          <span class="status-dot"></span>在线中
+        </div>
+      </div>
+      <button class="end-btn" id="btn-end-chat">结束相亲</button>
+    </div>
+
+    <div class="round-counter" id="round-counter">已聊 0 轮</div>
+
+    <div class="chat-messages" id="chat-messages">
+      <!-- 消息由 JS 动态生成 -->
+    </div>
+
+    <div class="chat-input-area">
+      <textarea
+        class="chat-input"
+        id="chat-input"
+        placeholder="说点什么..."
+        rows="1"
+        maxlength="200"
+      ></textarea>
+      <button class="send-btn" id="send-btn" title="发送">
+        ➤
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== 页面4：评分报告 ===== -->
+  <div class="page" id="page-score">
+    <div class="score-header">
+      <h2>📊 相亲报告</h2>
+      <p id="score-header-text">本次相亲分析报告</p>
+    </div>
+
+    <!-- 总分圆圈 -->
+    <div class="score-circle-wrapper">
+      <div class="score-circle">
+        <div class="score-number" id="score-number">0</div>
+        <div class="score-label">综合得分</div>
+      </div>
+    </div>
+
+    <!-- 评语 -->
+    <div class="score-emoji" id="score-emoji">🌸</div>
+    <div class="score-title" id="score-title">计算中...</div>
+    <div class="score-sub" id="score-sub"></div>
+
+    <!-- 维度评分 -->
+    <div class="score-dimensions">
+      <div class="score-dim-title">📈 详细评分</div>
+
+      <div class="dim-item">
+        <div class="dim-header">
+          <span class="dim-name">💬 话题契合度</span>
+          <span class="dim-score" id="dim-score-topicMatch">-/30</span>
+        </div>
+        <div class="dim-bar-bg">
+          <div class="dim-bar-fill" id="dim-bar-topicMatch"></div>
+        </div>
+      </div>
+
+      <div class="dim-item">
+        <div class="dim-header">
+          <span class="dim-name">⚡ 互动积极性</span>
+          <span class="dim-score" id="dim-score-interaction">-/25</span>
+        </div>
+        <div class="dim-bar-bg">
+          <div class="dim-bar-fill" id="dim-bar-interaction"></div>
+        </div>
+      </div>
+
+      <div class="dim-item">
+        <div class="dim-header">
+          <span class="dim-name">💕 情感温度</span>
+          <span class="dim-score" id="dim-score-emotion">-/25</span>
+        </div>
+        <div class="dim-bar-bg">
+          <div class="dim-bar-fill" id="dim-bar-emotion"></div>
+        </div>
+      </div>
+
+      <div class="dim-item">
+        <div class="dim-header">
+          <span class="dim-name">🔍 深度交流</span>
+          <span class="dim-score" id="dim-score-depth">-/20</span>
+        </div>
+        <div class="dim-bar-bg">
+          <div class="dim-bar-fill" id="dim-bar-depth"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 推荐异性方向 -->
+    <div class="recommendations">
+      <div class="rec-title">💡 适合你的异性方向</div>
+      <div class="rec-tags" id="rec-tags">
+        <!-- 标签由 JS 生成 -->
+      </div>
+      <div class="rec-text" id="rec-text"></div>
+    </div>
+
+    <!-- 亮点与建议 -->
+    <div class="highlights">
+      <div class="hl-title">🌟 亮点 & 建议</div>
+      <div id="highlights-container">
+        <!-- 内容由 JS 生成 -->
+      </div>
+    </div>
+
+    <!-- 底部操作按钮 -->
+    <div class="score-actions">
+      <button class="btn-restart" id="btn-restart">🔄 重新开始</button>
+      <button class="btn-chat-again" id="btn-chat-again">💬 再聊一次</button>
+    </div>
+  </div>
+
+</div><!-- /#app -->
+
+<!-- Toast 提示 -->
+<div class="toast" id="toast"></div>
+
+<!-- 加载遮罩 -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner">
+    <div class="spinner-ring"></div>
+    <div class="loading-text" id="loading-text">加载中...</div>
+  </div>
+</div>
+
+<!-- ===== JavaScript 模块加载顺序 ===== -->
+<!-- 1. 角色生成（无依赖） -->
+<script src="js/character.js"></script>
+<!-- 2. 评分系统（无依赖） -->
+<script src="js/scoring.js"></script>
+<!-- 3. 聊天功能（依赖 character.js 的 buildSystemPrompt） -->
+<script src="js/chat.js"></script>
+<!-- 4. 主应用逻辑（依赖其他所有模块） -->
+<script src="js/app.js"></script>
+
+</body>
+</html>
